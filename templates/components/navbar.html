@@ -166,10 +166,21 @@
     box-shadow:
         0 5px 30px rgba(255, 21, 21, 0.4),
         inset 0 -1px 0 rgba(255, 21, 21, 0.2);
-    padding: 0.4rem 0;
+    padding: 0.6rem 0;
     min-height: auto;
     position: relative;
     z-index: 1000;
+}
+
+.stranger-navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stranger-navbar .navbar-collapse {
+    flex-grow: 1;
+    justify-content: flex-end;
 }
 
 .stranger-navbar::before {
@@ -223,7 +234,7 @@
 }
 
 .stranger-brand .ctf_logo {
-    height: 22px;
+    height: 26px;
 }
 
 .stranger-brand .brand-text {
@@ -399,11 +410,22 @@
 .stranger-navbar .navbar-nav .nav-link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     white-space: nowrap;
 }
 
 .stranger-navbar .navbar-nav .nav-link i {
     margin-right: 0.35rem;
+}
+
+/* Center the left nav items and spread to right */
+.stranger-navbar .navbar-nav.mr-auto {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.stranger-navbar .navbar-nav.ml-md-auto {
+    margin-left: 0 !important;
 }
 
 /* Compact nav items */

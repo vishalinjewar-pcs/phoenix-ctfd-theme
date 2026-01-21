@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <defs>
+    <!-- Red neon glow filter -->
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feFlood flood-color="#ff1515" flood-opacity="0.8" result="flood"/>
+      <feComposite in="flood" in2="SourceGraphic" operator="in" result="mask"/>
+      <feGaussianBlur in="mask" stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Blue accent glow -->
+    <filter id="blueGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feFlood flood-color="#3a5fe5" flood-opacity="0.6" result="flood"/>
+      <feComposite in="flood" in2="SourceGraphic" operator="in" result="mask"/>
+      <feGaussianBlur in="mask" stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gradient for main text -->
+    <linearGradient id="redGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff3333;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff1515;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8c1515;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Animated dash pattern -->
+    <pattern id="scanline" patternUnits="userSpaceOnUse" width="4" height="4">
+      <rect width="4" height="2" fill="rgba(255,21,21,0.1)"/>
+    </pattern>
+  </defs>
+
+  <!-- Background dark overlay -->
+  <rect width="400" height="120" fill="#0a0a0a"/>
+
+  <!-- Subtle scanlines overlay -->
+  <rect width="400" height="120" fill="url(#scanline)" opacity="0.3"/>
+
+  <!-- Decorative portal circles -->
+  <circle cx="30" cy="60" r="15" fill="none" stroke="#ff1515" stroke-width="1" opacity="0.3" filter="url(#neonGlow)"/>
+  <circle cx="370" cy="60" r="15" fill="none" stroke="#3a5fe5" stroke-width="1" opacity="0.3" filter="url(#blueGlow)"/>
+
+  <!-- Small decorative elements -->
+  <circle cx="30" cy="60" r="5" fill="#ff1515" opacity="0.5"/>
+  <circle cx="370" cy="60" r="5" fill="#3a5fe5" opacity="0.5"/>
+
+  <!-- Decorative lines -->
+  <line x1="50" y1="60" x2="80" y2="60" stroke="#ff1515" stroke-width="2" opacity="0.5" filter="url(#neonGlow)"/>
+  <line x1="320" y1="60" x2="350" y2="60" stroke="#3a5fe5" stroke-width="2" opacity="0.5" filter="url(#blueGlow)"/>
+
+  <!-- Main CTF text -->
+  <text x="200" y="55"
+        font-family="'Cinzel', 'Times New Roman', serif"
+        font-size="48"
+        font-weight="700"
+        fill="url(#redGradient)"
+        text-anchor="middle"
+        letter-spacing="8"
+        filter="url(#neonGlow)">
+    CTF
+  </text>
+
+  <!-- Subtitle -->
+  <text x="200" y="85"
+        font-family="'Orbitron', 'Arial', sans-serif"
+        font-size="14"
+        font-weight="400"
+        fill="#d68f66"
+        text-anchor="middle"
+        letter-spacing="6">
+    THE UPSIDE DOWN
+  </text>
+
+  <!-- Decorative bottom line -->
+  <line x1="100" y1="100" x2="300" y2="100" stroke="#ff1515" stroke-width="1" opacity="0.5"/>
+  <line x1="150" y1="103" x2="250" y2="103" stroke="#3a5fe5" stroke-width="1" opacity="0.3"/>
+
+  <!-- Corner decorations -->
+  <path d="M 10 10 L 10 30 M 10 10 L 30 10" stroke="#ff1515" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 390 10 L 390 30 M 390 10 L 370 10" stroke="#ff1515" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 10 110 L 10 90 M 10 110 L 30 110" stroke="#3a5fe5" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 390 110 L 390 90 M 390 110 L 370 110" stroke="#3a5fe5" stroke-width="2" fill="none" opacity="0.5"/>
+</svg>

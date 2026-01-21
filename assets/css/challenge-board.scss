@@ -1,0 +1,659 @@
+// ========================================
+// CHALLENGE BOARD - STRANGER THINGS THEME
+// The Upside Down Challenge Portal
+// ========================================
+
+// Color Variables
+$st-black: #0a0a0a;
+$st-dark-red: #1e0707;
+$st-dark-blue: #1e193c;
+$st-red: #ff1515;
+$st-red-glow: #ff3333;
+$st-red-dark: #8c1515;
+$st-blue: #3a5fe5;
+$st-blue-glow: #5a7fff;
+$st-forest-green: #073e1e;
+$st-green-glow: #37d63e;
+$st-copper: #8c4f4f;
+$st-copper-light: #d68f66;
+$st-cream: #f8c8a0;
+$st-white: #f9f1e6;
+$st-neon-cyan: #05d9e8;
+
+// ========================================
+// CHALLENGE DESCRIPTION
+// ========================================
+.chal-desc {
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 14px;
+  color: $st-white;
+  line-height: 1.8;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid $st-copper;
+    margin: 1rem 0;
+  }
+
+  code {
+    background: rgba(255, 21, 21, 0.1);
+    border: 1px solid rgba(255, 21, 21, 0.3);
+    color: $st-neon-cyan;
+    padding: 0.2em 0.5em;
+    font-family: "Orbitron", monospace;
+  }
+
+  pre {
+    background: rgba(10, 10, 10, 0.9);
+    border: 2px solid $st-copper;
+    border-left: 4px solid $st-red;
+    padding: 1rem;
+    overflow-x: auto;
+
+    code {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+  }
+}
+
+// ========================================
+// MODAL CONTENT - PORTAL WINDOW
+// ========================================
+.modal-content {
+  border-radius: 0px;
+  max-width: 1000px;
+  padding: 1.5em;
+  margin: 0 auto;
+  background:
+    linear-gradient(180deg,
+      rgba(10, 10, 10, 0.98) 0%,
+      rgba(30, 7, 7, 0.98) 50%,
+      rgba(30, 25, 60, 0.98) 100%);
+  border: 2px solid $st-red;
+  box-shadow:
+    0 0 50px rgba(255, 21, 21, 0.5),
+    0 0 100px rgba(255, 21, 21, 0.2),
+    inset 0 0 50px rgba(255, 21, 21, 0.05);
+  color: $st-white;
+  position: relative;
+  overflow: hidden;
+
+  // Atmospheric noise
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.02;
+    pointer-events: none;
+  }
+
+  // Portal edge glow
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid transparent;
+    background:
+      linear-gradient(rgba(10, 10, 10, 0.98), rgba(10, 10, 10, 0.98)) padding-box,
+      linear-gradient(180deg, $st-red, $st-dark-blue, $st-red) border-box;
+    border-radius: 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+// ========================================
+// CLOSE BUTTON
+// ========================================
+.modal-content .close {
+  color: $st-red;
+  font-size: 2rem;
+  text-shadow: 0 0 20px $st-red;
+  opacity: 1;
+  position: relative;
+  z-index: 10;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $st-red-glow;
+    text-shadow: 0 0 30px $st-red-glow;
+    transform: rotate(90deg);
+  }
+}
+
+// ========================================
+// NAVIGATION TABS
+// ========================================
+.nav-tabs {
+  border-bottom: 2px solid $st-copper;
+  position: relative;
+  z-index: 5;
+
+  .nav-link {
+    color: $st-copper-light;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    font-family: "Orbitron", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+
+    &:hover {
+      color: $st-red;
+      border-bottom-color: rgba(255, 21, 21, 0.5);
+      text-shadow: 0 0 10px rgba(255, 21, 21, 0.5);
+    }
+
+    &.active {
+      color: $st-red;
+      background: transparent;
+      border-color: transparent;
+      border-bottom: 3px solid $st-red;
+      text-shadow: 0 0 15px $st-red;
+      box-shadow: 0 5px 20px rgba(255, 21, 21, 0.3);
+    }
+  }
+}
+
+// ========================================
+// CHALLENGE NAME & VALUE
+// ========================================
+.challenge-name {
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: $st-red;
+  text-shadow:
+    0 0 10px rgba(255, 21, 21, 0.8),
+    0 0 20px rgba(255, 21, 21, 0.6),
+    0 0 30px rgba(255, 21, 21, 0.4);
+  animation: challenge-glow 2s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 5;
+}
+
+@keyframes challenge-glow {
+  0% {
+    text-shadow:
+      0 0 10px rgba(255, 21, 21, 0.8),
+      0 0 20px rgba(255, 21, 21, 0.6);
+  }
+  100% {
+    text-shadow:
+      0 0 20px rgba(255, 21, 21, 1),
+      0 0 40px rgba(255, 21, 21, 0.8),
+      0 0 60px rgba(255, 21, 21, 0.4);
+  }
+}
+
+.challenge-value {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  color: $st-neon-cyan;
+  text-shadow: 0 0 15px rgba(5, 217, 232, 0.8);
+  position: relative;
+  z-index: 5;
+
+  &::before {
+    content: '⬡';
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+    opacity: 0.7;
+  }
+
+  &::after {
+    content: ' pts';
+    font-size: 0.8rem;
+    opacity: 0.7;
+    letter-spacing: 2px;
+  }
+}
+
+// ========================================
+// CHALLENGE TAGS
+// ========================================
+.challenge-tags {
+  margin: 1rem 0;
+  position: relative;
+  z-index: 5;
+}
+
+.challenge-tag {
+  background: linear-gradient(180deg, $st-blue 0%, darken($st-blue, 15%) 100%) !important;
+  border: 1px solid rgba(58, 95, 229, 0.5);
+  box-shadow: 0 0 10px rgba(58, 95, 229, 0.5);
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  margin: 0 0.25rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(58, 95, 229, 0.8);
+    transform: translateY(-2px);
+  }
+}
+
+// ========================================
+// CHALLENGE DESCRIPTION
+// ========================================
+.challenge-desc {
+  padding: 1.5rem 0;
+  color: $st-white;
+  line-height: 1.8;
+  position: relative;
+  z-index: 5;
+
+  a {
+    color: $st-neon-cyan;
+
+    &:hover {
+      color: $st-red;
+      text-shadow: 0 0 10px $st-red;
+    }
+  }
+}
+
+// ========================================
+// BUTTONS - NEON STYLE
+// ========================================
+.btn-info {
+  background: linear-gradient(180deg, $st-blue 0%, darken($st-blue, 15%) 100%) !important;
+  border: 2px solid $st-blue;
+  color: $st-white;
+  box-shadow: 0 0 15px rgba(58, 95, 229, 0.5);
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    background: linear-gradient(180deg, $st-blue-glow 0%, $st-blue 100%) !important;
+    box-shadow:
+      0 0 25px rgba(58, 95, 229, 0.8),
+      0 0 50px rgba(58, 95, 229, 0.4);
+    transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+.badge-info {
+  background: linear-gradient(180deg, $st-blue 0%, darken($st-blue, 10%) 100%) !important;
+  box-shadow: 0 0 10px rgba(58, 95, 229, 0.5);
+}
+
+// ========================================
+// CHALLENGE BUTTONS - PORTAL ENTRIES
+// ========================================
+.challenge-button {
+  background: linear-gradient(180deg, rgba(30, 7, 7, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+  border: 2px solid $st-copper;
+  color: $st-white;
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  // Glowing edge effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(rgba(30, 7, 7, 0.9), rgba(30, 7, 7, 0.9)) padding-box,
+      linear-gradient(135deg, $st-red, $st-copper, $st-blue) border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    border-color: $st-red;
+    box-shadow:
+      0 5px 25px rgba(255, 21, 21, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 15px rgba(255, 21, 21, 0.4);
+  }
+}
+
+// ========================================
+// SOLVED CHALLENGE - VICTORY STATE
+// ========================================
+.solved-challenge {
+  background: linear-gradient(180deg,
+    rgba(7, 62, 30, 0.8) 0%,
+    rgba(55, 214, 62, 0.3) 50%,
+    rgba(7, 62, 30, 0.8) 100%) !important;
+  border: 2px solid $st-green-glow !important;
+  box-shadow:
+    0 0 20px rgba(55, 214, 62, 0.5),
+    inset 0 0 30px rgba(55, 214, 62, 0.1);
+  opacity: 0.9;
+  position: relative;
+
+  // Checkmark overlay effect
+  &::after {
+    content: '✓';
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.2rem;
+    color: $st-green-glow;
+    text-shadow: 0 0 10px $st-green-glow;
+  }
+}
+
+.corner-button-check {
+  margin-top: -10px;
+  margin-right: 25px;
+  position: absolute;
+  right: 0;
+  color: $st-green-glow;
+  text-shadow: 0 0 10px $st-green-glow;
+}
+
+// ========================================
+// HINT BUTTONS
+// ========================================
+.btn-hint {
+  background: linear-gradient(180deg, rgba(45, 31, 61, 0.9) 0%, rgba(30, 25, 60, 0.95) 100%) !important;
+  border: 2px solid $st-copper !important;
+  color: $st-cream;
+
+  &:hover {
+    border-color: $st-red !important;
+    box-shadow: 0 0 20px rgba(255, 21, 21, 0.4);
+  }
+}
+
+// ========================================
+// FILE BUTTONS
+// ========================================
+.btn-file {
+  background: linear-gradient(180deg, $st-copper 0%, darken($st-copper, 15%) 100%) !important;
+  border: 2px solid $st-copper !important;
+
+  i {
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    background: linear-gradient(180deg, $st-copper-light 0%, $st-copper 100%) !important;
+    box-shadow: 0 0 20px rgba(140, 79, 79, 0.6);
+  }
+}
+
+// ========================================
+// FLAG INPUT & SUBMIT
+// ========================================
+.submit-row {
+  position: relative;
+  z-index: 5;
+  margin-top: 1.5rem;
+}
+
+.challenge-input {
+  background: rgba(10, 10, 10, 0.95) !important;
+  border: 2px solid $st-copper !important;
+  color: $st-white !important;
+  font-family: "Orbitron", monospace !important;
+  padding: 1rem !important;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+
+  &::placeholder {
+    color: $st-copper;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  &:focus {
+    border-color: $st-red !important;
+    box-shadow:
+      0 0 0 0.1rem rgba(255, 21, 21, 0.5),
+      0 0 25px rgba(255, 21, 21, 0.3),
+      inset 0 0 15px rgba(255, 21, 21, 0.1) !important;
+    outline: none;
+  }
+}
+
+.challenge-submit {
+  background: linear-gradient(180deg, $st-red 0%, $st-red-dark 100%) !important;
+  border: 2px solid $st-red !important;
+  color: $st-white !important;
+  font-family: "Orbitron", sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  padding: 1rem 2rem !important;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 21, 21, 0.5);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    background: linear-gradient(180deg, $st-red-glow 0%, $st-red 100%) !important;
+    box-shadow:
+      0 0 30px rgba(255, 21, 21, 0.8),
+      0 0 60px rgba(255, 21, 21, 0.4);
+    transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0 15px rgba(255, 21, 21, 0.5);
+  }
+}
+
+.key-submit .btn {
+  height: 51px;
+}
+
+// ========================================
+// RESULT NOTIFICATIONS
+// ========================================
+#result-notification {
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 0;
+  position: relative;
+  z-index: 5;
+
+  &.alert-success {
+    background: rgba(7, 62, 30, 0.9);
+    border: 2px solid $st-green-glow;
+    color: $st-green-glow;
+    box-shadow: 0 0 25px rgba(55, 214, 62, 0.5);
+    animation: success-pulse 1s ease infinite;
+  }
+
+  &.alert-danger {
+    background: rgba(30, 7, 7, 0.9);
+    border: 2px solid $st-red;
+    color: $st-red-glow;
+    box-shadow: 0 0 25px rgba(255, 21, 21, 0.5);
+    animation: shake 0.5s ease;
+  }
+
+  &.alert-info {
+    background: rgba(30, 25, 60, 0.9);
+    border: 2px solid $st-blue;
+    color: $st-blue-glow;
+    box-shadow: 0 0 25px rgba(58, 95, 229, 0.5);
+  }
+}
+
+@keyframes success-pulse {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(55, 214, 62, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(55, 214, 62, 0.8);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}
+
+// ========================================
+// SOLVES TABLE
+// ========================================
+#challenge-solves-names {
+  tr {
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 21, 21, 0.1);
+    }
+  }
+
+  td {
+    color: $st-white;
+    border-color: rgba(255, 21, 21, 0.2);
+    padding: 0.8rem;
+  }
+}
+
+// ========================================
+// CATEGORY HEADERS
+// ========================================
+.category-header {
+  font-family: "Cinzel", serif;
+  color: $st-red;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 15px rgba(255, 21, 21, 0.6);
+  border-bottom: 2px solid $st-red;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, $st-red, transparent);
+  }
+}
+
+// ========================================
+// CHALLENGE BOARD CONTAINER
+// ========================================
+#challenges-board {
+  position: relative;
+
+  // Subtle grid overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 21, 21, 0.02) 1px, transparent 1px),
+      linear-gradient(rgba(255, 21, 21, 0.02) 1px, transparent 1px);
+    background-size: 100px 100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// ========================================
+// TAB CONTENT
+// ========================================
+.tab-content {
+  position: relative;
+  z-index: 5;
+}
+
+.tab-pane {
+  padding-top: 1rem;
+}
+
+// ========================================
+// ATTEMPTS COUNTER
+// ========================================
+.text-center p {
+  color: $st-copper-light;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 1px;
+}

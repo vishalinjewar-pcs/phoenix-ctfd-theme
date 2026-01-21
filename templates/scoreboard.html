@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<style>
+/* ========================================
+   STRANGER THINGS SCOREBOARD PAGE
+   ======================================== */
+.scoreboard-jumbotron h1 {
+	font-family: "Cinzel", serif;
+	font-size: 3rem;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	color: #ff1515;
+	text-shadow:
+		0 0 10px rgba(255, 21, 21, 0.8),
+		0 0 20px rgba(255, 21, 21, 0.6),
+		0 0 30px rgba(255, 21, 21, 0.4);
+	animation: scoreboard-glow 3s ease-in-out infinite alternate;
+}
+
+.scoreboard-jumbotron h1::before {
+	content: '🏆';
+	margin-right: 1rem;
+	font-size: 2.5rem;
+	filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes scoreboard-glow {
+	0%, 100% {
+		text-shadow:
+			0 0 10px rgba(255, 21, 21, 0.8),
+			0 0 20px rgba(255, 21, 21, 0.6);
+	}
+	50% {
+		text-shadow:
+			0 0 20px rgba(255, 21, 21, 1),
+			0 0 40px rgba(255, 21, 21, 0.8),
+			0 0 60px rgba(255, 21, 21, 0.4);
+	}
+}
+
+/* Score Graph Container */
+#score-graph {
+	background: rgba(10, 10, 10, 0.8);
+	border: 2px solid #8c4f4f;
+	padding: 1.5rem;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 2rem;
+}
+
+#score-graph::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background:
+		linear-gradient(90deg, rgba(255, 21, 21, 0.03) 1px, transparent 1px),
+		linear-gradient(rgba(255, 21, 21, 0.03) 1px, transparent 1px);
+	background-size: 40px 40px;
+	pointer-events: none;
+}
+
+#score-graph:hover {
+	border-color: #ff1515;
+	box-shadow: 0 0 30px rgba(255, 21, 21, 0.3);
+}
+
+/* Spinner */
+.spinner {
+	color: #ff1515 !important;
+	filter: drop-shadow(0 0 10px rgba(255, 21, 21, 0.8));
+}
+
+/* Scoreboard Table */
+#scoreboard {
+	margin-top: 2rem;
+}
+
+.scoreboard-table {
+	background: rgba(10, 10, 10, 0.9);
+	border: 2px solid #8c4f4f;
+	overflow: hidden;
+}
+
+.table {
+	margin-bottom: 0;
+	color: #f9f1e6;
+}
+
+.table thead {
+	background: linear-gradient(180deg,
+		rgba(30, 7, 7, 0.95) 0%,
+		rgba(10, 10, 10, 0.95) 100%);
+}
+
+.table thead td,
+.table thead th {
+	color: #ff1515 !important;
+	font-family: "Orbitron", sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 0.9rem;
+	border-bottom: 2px solid #ff1515;
+	padding: 1rem;
+	text-shadow: 0 0 10px rgba(255, 21, 21, 0.5);
+}
+
+.table tbody tr {
+	transition: all 0.3s ease;
+	border-bottom: 1px solid rgba(255, 21, 21, 0.1);
+}
+
+.table tbody tr:hover {
+	background: rgba(255, 21, 21, 0.1) !important;
+	box-shadow: 0 0 20px rgba(255, 21, 21, 0.2);
+}
+
+.table tbody td {
+	padding: 1rem;
+	vertical-align: middle;
+	border-color: rgba(255, 21, 21, 0.1);
+}
+
+/* Rank Column */
+.table tbody th {
+	font-family: "Orbitron", sans-serif;
+	font-weight: 900;
+	font-size: 1.2rem;
+	color: #05d9e8;
+	text-shadow: 0 0 10px rgba(5, 217, 232, 0.6);
+}
+
+/* Top 3 styling */
+.table tbody tr:nth-child(1) th {
+	color: #ffd700;
+	text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+	font-size: 1.4rem;
+}
+
+.table tbody tr:nth-child(1) {
+	background: linear-gradient(90deg,
+		rgba(255, 215, 0, 0.1) 0%,
+		transparent 100%);
+}
+
+.table tbody tr:nth-child(2) th {
+	color: #c0c0c0;
+	text-shadow: 0 0 15px rgba(192, 192, 192, 0.8);
+	font-size: 1.3rem;
+}
+
+.table tbody tr:nth-child(2) {
+	background: linear-gradient(90deg,
+		rgba(192, 192, 192, 0.1) 0%,
+		transparent 100%);
+}
+
+.table tbody tr:nth-child(3) th {
+	color: #cd7f32;
+	text-shadow: 0 0 15px rgba(205, 127, 50, 0.8);
+	font-size: 1.2rem;
+}
+
+.table tbody tr:nth-child(3) {
+	background: linear-gradient(90deg,
+		rgba(205, 127, 50, 0.1) 0%,
+		transparent 100%);
+}
+
+/* Team/User Name */
+.table tbody td a {
+	color: #d68f66;
+	font-family: "Orbitron", sans-serif;
+	letter-spacing: 1px;
+	transition: all 0.3s ease;
+}
+
+.table tbody td a:hover {
+	color: #ff1515;
+	text-shadow: 0 0 10px rgba(255, 21, 21, 0.8);
+}
+
+/* Score Column */
+.table tbody td:last-child {
+	font-family: "Orbitron", sans-serif;
+	font-weight: 700;
+	color: #05d9e8;
+	text-shadow: 0 0 8px rgba(5, 217, 232, 0.5);
+}
+
+/* Official Badge */
+.badge-primary {
+	background: linear-gradient(180deg, #3a5fe5 0%, #2a4fc5 100%) !important;
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.65rem;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	box-shadow: 0 0 10px rgba(58, 95, 229, 0.5);
+}
+
+/* Table Striping */
+.table-striped tbody tr:nth-of-type(odd) {
+	background-color: rgba(30, 7, 7, 0.4);
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+	background-color: rgba(30, 25, 60, 0.3);
+}
+
+/* Scoreboard subtitle */
+.scoreboard-subtitle {
+	font-family: "Orbitron", sans-serif;
+	color: #8c4f4f;
+	font-size: 0.9rem;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	margin-top: 0.5rem;
+}
+
+/* Container animation */
+.scoreboard-container {
+	animation: fade-in-up 0.5s ease-out;
+}
+
+@keyframes fade-in-up {
+	0% {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron scoreboard-jumbotron">
+	<div class="container">
+		<h1>Scoreboard</h1>
+		<p class="scoreboard-subtitle">The battle for the Upside Down</p>
+	</div>
+</div>
+<div class="container scoreboard-container">
+	{% include "components/errors.html" %}
+
+	<div id="score-graph" class="row d-flex align-items-center">
+		<div class="col-md-12 text-center">
+			<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+			<p class="mt-3" style="color: #8c4f4f; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">
+				Loading dimensional data...
+			</p>
+		</div>
+	</div>
+
+	{% cache 60, CacheKeys.PUBLIC_SCOREBOARD_TABLE %}
+	{% if standings %}
+	<div id="scoreboard" class="row">
+		<div class="col-md-12">
+			<div class="scoreboard-table">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<td scope="col" width="10px"><b>Rank</b></td>
+							<td scope="col"><b>{{ get_mode_as_word(capitalize=True) }}</b></td>
+							<td scope="col"><b>Score</b></td>
+						</tr>
+					</thead>
+					<tbody>
+					{% for standing in standings %}
+						<tr>
+							<th scope="row" class="text-center">
+								{% if loop.index == 1 %}
+									👑
+								{% elif loop.index == 2 %}
+									🥈
+								{% elif loop.index == 3 %}
+									🥉
+								{% else %}
+									{{ loop.index }}
+								{% endif %}
+							</th>
+							<td>
+								<a href="{{ generate_account_url(standing.account_id) }}">
+									{{ standing.name | truncate(50) }}
+
+									{% if standing.oauth_id %}
+										{% if Configs.user_mode == 'teams' %}
+										<a href="https://majorleaguecyber.org/t/{{ standing.name }}">
+											<span class="badge badge-primary">Official</span>
+										</a>
+										{% elif Configs.user_mode == 'users' %}
+										<a href="https://majorleaguecyber.org/u/{{ standing.name }}">
+											<span class="badge badge-primary">Official</span>
+										</a>
+										{% endif %}
+									{% endif %}
+								</a>
+							</td>
+							<td>{{ standing.score }}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% endcache %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script defer src="{{ url_for('views.themes', path='js/echarts.bundle.js') }}"></script>
+{% endblock %}
+
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/scoreboard.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ Configs.ctf_name }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ Configs.ctf_small_icon }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('views.themes', path='css/fonts.css') }}">
+    <!-- Google Fonts for Stranger Things Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('views.themes', path='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('views.themes', path='css/core.css') }}">
+    {% block stylesheets %}
+    {% endblock %}
+
+    {{ Plugins.styles }}
+    <script type="text/javascript">
+        var init = {
+            'urlRoot': "{{ request.script_root }}",
+            'csrfNonce': "{{ Session.nonce }}",
+            'userMode': "{{ Configs.user_mode }}",
+            'userId': {{ Session.id }},
+            'start': {{ Configs.start | tojson }},
+            'end': {{ Configs.end | tojson }},
+            'theme_settings': {{ Configs.theme_settings | tojson }}
+        }
+    </script>
+    {{ Configs.theme_header }}
+
+    <style>
+    /* ========================================
+       STRANGER THINGS - GLOBAL ENHANCEMENTS
+       ======================================== */
+
+    /* Upside Down Floating Particles */
+    .upside-down-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(255, 21, 21, 0.4);
+        border-radius: 50%;
+        animation: float-up 15s linear infinite;
+        box-shadow: 0 0 6px rgba(255, 21, 21, 0.8);
+    }
+
+    .particle:nth-child(2) {
+        left: 10%;
+        animation-delay: 2s;
+        animation-duration: 18s;
+        background: rgba(58, 95, 229, 0.4);
+        box-shadow: 0 0 6px rgba(58, 95, 229, 0.8);
+    }
+
+    .particle:nth-child(3) {
+        left: 20%;
+        animation-delay: 4s;
+        animation-duration: 12s;
+    }
+
+    .particle:nth-child(4) {
+        left: 30%;
+        animation-delay: 1s;
+        animation-duration: 20s;
+        background: rgba(58, 95, 229, 0.3);
+        box-shadow: 0 0 6px rgba(58, 95, 229, 0.6);
+    }
+
+    .particle:nth-child(5) {
+        left: 40%;
+        animation-delay: 3s;
+        animation-duration: 16s;
+    }
+
+    .particle:nth-child(6) {
+        left: 50%;
+        animation-delay: 5s;
+        animation-duration: 14s;
+        background: rgba(58, 95, 229, 0.4);
+        box-shadow: 0 0 6px rgba(58, 95, 229, 0.8);
+    }
+
+    .particle:nth-child(7) {
+        left: 60%;
+        animation-delay: 0s;
+        animation-duration: 22s;
+    }
+
+    .particle:nth-child(8) {
+        left: 70%;
+        animation-delay: 6s;
+        animation-duration: 13s;
+        background: rgba(58, 95, 229, 0.3);
+        box-shadow: 0 0 6px rgba(58, 95, 229, 0.6);
+    }
+
+    .particle:nth-child(9) {
+        left: 80%;
+        animation-delay: 2.5s;
+        animation-duration: 17s;
+    }
+
+    .particle:nth-child(10) {
+        left: 90%;
+        animation-delay: 4.5s;
+        animation-duration: 19s;
+        background: rgba(58, 95, 229, 0.4);
+        box-shadow: 0 0 6px rgba(58, 95, 229, 0.8);
+    }
+
+    @keyframes float-up {
+        0% {
+            transform: translateY(100vh) scale(0);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+            transform: translateY(90vh) scale(1);
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-10vh) scale(0.5);
+            opacity: 0;
+        }
+    }
+
+    /* Vines/Tendrils Effect */
+    .upside-down-vines {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        pointer-events: none;
+        z-index: 9999;
+        background:
+            radial-gradient(ellipse at 5% 100%, rgba(30, 7, 7, 0.8) 0%, transparent 50%),
+            radial-gradient(ellipse at 25% 100%, rgba(45, 31, 61, 0.6) 0%, transparent 40%),
+            radial-gradient(ellipse at 45% 100%, rgba(30, 7, 7, 0.7) 0%, transparent 45%),
+            radial-gradient(ellipse at 65% 100%, rgba(45, 31, 61, 0.6) 0%, transparent 40%),
+            radial-gradient(ellipse at 85% 100%, rgba(30, 7, 7, 0.8) 0%, transparent 50%),
+            radial-gradient(ellipse at 95% 100%, rgba(45, 31, 61, 0.5) 0%, transparent 35%);
+        opacity: 0.5;
+    }
+
+    /* Top atmosphere effect */
+    .upside-down-atmosphere {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        pointer-events: none;
+        z-index: -1;
+        background: linear-gradient(180deg,
+            rgba(30, 25, 60, 0.4) 0%,
+            rgba(30, 7, 7, 0.2) 50%,
+            transparent 100%);
+    }
+
+    /* Lightning flash effect (occasional) */
+    @keyframes lightning {
+        0%, 95%, 100% {
+            opacity: 0;
+        }
+        96%, 98% {
+            opacity: 0.1;
+        }
+        97% {
+            opacity: 0.3;
+        }
+    }
+
+    .lightning-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at 50% 0%, rgba(255, 21, 21, 0.3) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 9998;
+        animation: lightning 15s ease-in-out infinite;
+    }
+
+    /* Page Transitions */
+    main {
+        animation: page-fade-in 0.5s ease-out;
+    }
+
+    @keyframes page-fade-in {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Enhanced Footer */
+    .stranger-footer {
+        background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(10, 10, 10, 0.95) 30%,
+            rgba(30, 7, 7, 0.98) 100%);
+        border-top: 2px solid rgba(255, 21, 21, 0.5);
+        padding: 2rem 0;
+        position: relative;
+        margin-top: 3rem;
+    }
+
+    .stranger-footer::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg,
+            transparent,
+            #ff1515 30%,
+            #3a5fe5 50%,
+            #ff1515 70%,
+            transparent);
+        animation: footer-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes footer-glow {
+        0%, 100% {
+            opacity: 0.5;
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .footer-brand {
+        font-family: "Cinzel", serif;
+        color: #ff1515;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-shadow: 0 0 10px rgba(255, 21, 21, 0.6);
+    }
+
+    .footer-links a {
+        color: #8c4f4f;
+        margin: 0 1rem;
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: #ff1515;
+        text-shadow: 0 0 10px rgba(255, 21, 21, 0.8);
+    }
+
+    .footer-credit {
+        color: #8c4f4f;
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .footer-credit a {
+        color: #d68f66;
+        transition: all 0.3s ease;
+    }
+
+    .footer-credit a:hover {
+        color: #ff1515;
+        text-shadow: 0 0 10px rgba(255, 21, 21, 0.8);
+    }
+
+    /* Stranger Things decorative elements */
+    .st-decoration {
+        position: absolute;
+        font-size: 1.5rem;
+        color: rgba(255, 21, 21, 0.3);
+        animation: float-decoration 5s ease-in-out infinite;
+    }
+
+    .st-decoration-1 { left: 5%; top: 20%; animation-delay: 0s; }
+    .st-decoration-2 { right: 5%; top: 40%; animation-delay: 1s; }
+    .st-decoration-3 { left: 10%; bottom: 30%; animation-delay: 2s; }
+    .st-decoration-4 { right: 10%; bottom: 20%; animation-delay: 3s; }
+
+    @keyframes float-decoration {
+        0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+        50% { transform: translateY(-10px) rotate(5deg); opacity: 0.5; }
+    }
+    </style>
+</head>
+<body>
+    <!-- Upside Down Atmospheric Effects -->
+    <div class="upside-down-atmosphere"></div>
+    <div class="upside-down-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="lightning-overlay"></div>
+
+    {% include "components/navbar.html" %}
+
+    <main role="main">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer stranger-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    The Upside Down
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/0xdevsachin">
+                        Theme by Sachin
+                    </a>
+                    <a href="https://ctfd.io">
+                        Powered by CTFd
+                    </a>
+                </div>
+                <div class="footer-credit">
+                    <small>Stranger Things Theme Edition</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom vines effect -->
+    <div class="upside-down-vines"></div>
+
+    <script defer src="{{ url_for('views.themes', path='js/vendor.bundle.js') }}"></script>
+    <script defer src="{{ url_for('views.themes', path='js/core.js') }}"></script>
+    <script defer src="{{ url_for('views.themes', path='js/helpers.js') }}"></script>
+
+    {% block entrypoint %}
+    <script defer src="{{ url_for('views.themes', path='js/pages/main.js') }}"></script>
+    {% endblock %}
+
+    {% block scripts %}
+    {% endblock %}
+
+    {{ Plugins.scripts }}
+
+    {{ Configs.theme_footer }}
+</body>
+</html>

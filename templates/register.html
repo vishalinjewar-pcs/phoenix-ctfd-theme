@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<style>
+/* ========================================
+   STRANGER THINGS REGISTER PAGE
+   ======================================== */
+.register-container {
+	position: relative;
+	z-index: 1;
+}
+
+.register-card {
+	background: linear-gradient(180deg,
+		rgba(10, 10, 10, 0.95) 0%,
+		rgba(30, 7, 7, 0.98) 50%,
+		rgba(30, 25, 60, 0.95) 100%);
+	border: 2px solid #8c4f4f;
+	padding: 2.5rem;
+	position: relative;
+	overflow: hidden;
+	box-shadow:
+		0 10px 40px rgba(0, 0, 0, 0.5),
+		0 0 30px rgba(255, 21, 21, 0.2);
+	transition: all 0.3s ease;
+}
+
+.register-card:hover {
+	border-color: #ff1515;
+	box-shadow:
+		0 10px 50px rgba(0, 0, 0, 0.6),
+		0 0 50px rgba(255, 21, 21, 0.3);
+}
+
+.register-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	opacity: 0.03;
+	pointer-events: none;
+}
+
+.register-card::after {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: radial-gradient(circle, rgba(58, 95, 229, 0.1) 0%, transparent 50%);
+	animation: portal-rotate 25s linear infinite;
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+@keyframes portal-rotate {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.register-title {
+	font-family: "Cinzel", serif;
+	color: #ff1515;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	text-shadow:
+		0 0 10px rgba(255, 21, 21, 0.8),
+		0 0 20px rgba(255, 21, 21, 0.6),
+		0 0 30px rgba(255, 21, 21, 0.4);
+	margin-bottom: 0.5rem;
+	position: relative;
+	z-index: 5;
+}
+
+.register-subtitle {
+	font-family: "Orbitron", sans-serif;
+	color: #8c4f4f;
+	font-size: 0.9rem;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+}
+
+.form-group {
+	position: relative;
+	z-index: 5;
+	margin-bottom: 1.5rem;
+}
+
+.form-group b {
+	color: #f8c8a0;
+	font-family: "Orbitron", sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 0.85rem;
+	display: block;
+	margin-bottom: 0.5rem;
+}
+
+.form-control {
+	background: rgba(10, 10, 10, 0.9) !important;
+	border: 2px solid #8c4f4f !important;
+	color: #f9f1e6 !important;
+	font-family: "Orbitron", monospace !important;
+	padding: 1rem !important;
+	transition: all 0.3s ease;
+}
+
+.form-control:focus {
+	border-color: #ff1515 !important;
+	box-shadow:
+		0 0 0 0.1rem rgba(255, 21, 21, 0.5),
+		0 0 25px rgba(255, 21, 21, 0.3),
+		inset 0 0 15px rgba(255, 21, 21, 0.1) !important;
+}
+
+.form-control::placeholder {
+	color: #8c4f4f;
+	opacity: 0.7;
+}
+
+.form-text {
+	color: #8c4f4f !important;
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.75rem;
+	letter-spacing: 1px;
+	margin-top: 0.5rem;
+}
+
+.register-btn {
+	background: linear-gradient(180deg, #3a5fe5 0%, #2a4fc5 100%) !important;
+	border: 2px solid #3a5fe5 !important;
+	color: #f9f1e6 !important;
+	font-family: "Orbitron", sans-serif !important;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	font-weight: 700;
+	padding: 1rem 2rem !important;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(58, 95, 229, 0.5);
+	transition: all 0.3s ease;
+}
+
+.register-btn::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+	transition: left 0.5s ease;
+}
+
+.register-btn:hover {
+	background: linear-gradient(180deg, #5a7fff 0%, #3a5fe5 100%) !important;
+	box-shadow:
+		0 0 30px rgba(58, 95, 229, 0.8),
+		0 0 60px rgba(58, 95, 229, 0.4);
+	transform: translateY(-2px);
+}
+
+.register-btn:hover::before {
+	left: 100%;
+}
+
+.mlc-btn {
+	background: linear-gradient(180deg, #8c4f4f 0%, #6c3f3f 100%) !important;
+	border: 2px solid #8c4f4f !important;
+	color: #f9f1e6 !important;
+	font-family: "Orbitron", sans-serif !important;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	box-shadow: 0 0 15px rgba(140, 79, 79, 0.5);
+	transition: all 0.3s ease;
+}
+
+.mlc-btn:hover {
+	box-shadow:
+		0 0 25px rgba(140, 79, 79, 0.8),
+		0 0 50px rgba(140, 79, 79, 0.4);
+	transform: translateY(-2px);
+}
+
+.divider-line {
+	border-color: rgba(255, 21, 21, 0.3);
+	position: relative;
+	margin: 2rem 0;
+}
+
+.divider-line::before {
+	content: 'OR';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background: rgba(10, 10, 10, 0.9);
+	padding: 0 1rem;
+	color: #ff1515;
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.8rem;
+	letter-spacing: 2px;
+}
+
+/* Decorative corner elements */
+.register-card .corner-decoration {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	border: 2px solid #3a5fe5;
+	z-index: 10;
+}
+
+.corner-tl {
+	top: 10px;
+	left: 10px;
+	border-right: none;
+	border-bottom: none;
+}
+
+.corner-tr {
+	top: 10px;
+	right: 10px;
+	border-left: none;
+	border-bottom: none;
+}
+
+.corner-bl {
+	bottom: 10px;
+	left: 10px;
+	border-right: none;
+	border-top: none;
+}
+
+.corner-br {
+	bottom: 10px;
+	right: 10px;
+	border-left: none;
+	border-top: none;
+}
+
+.tos-text {
+	color: #8c4f4f !important;
+	font-family: "Orbitron", sans-serif;
+	font-size: 0.75rem;
+	letter-spacing: 1px;
+}
+
+.tos-text a {
+	color: #05d9e8;
+	transition: all 0.3s ease;
+}
+
+.tos-text a:hover {
+	color: #ff1515;
+	text-shadow: 0 0 10px rgba(255, 21, 21, 0.8);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<h1 class="register-title">Join The Party</h1>
+		<p class="register-subtitle">Begin your journey into the unknown</p>
+	</div>
+</div>
+<div class="container register-container">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			{% include "components/errors.html" %}
+
+			<div class="register-card">
+				<!-- Corner decorations -->
+				<div class="corner-decoration corner-tl"></div>
+				<div class="corner-decoration corner-tr"></div>
+				<div class="corner-decoration corner-bl"></div>
+				<div class="corner-decoration corner-br"></div>
+
+				{% if integrations.mlc() %}
+				<a class="btn btn-lg btn-block mlc-btn" href="{{ url_for('auth.oauth_login') }}">
+					<i class="fas fa-shield-alt mr-2"></i>
+					Login with Major League Cyber
+				</a>
+
+				<hr class="divider-line">
+				{% endif %}
+
+				{% with form = Forms.auth.RegistrationForm() %}
+				{% from "macros/forms.html" import render_extra_fields %}
+				<form method="post" accept-charset="utf-8" autocomplete="off" role="form">
+					<div class="form-group">
+						<b><i class="fas fa-user-secret mr-2"></i>{{ form.name.label }}</b>
+						{{ form.name(class="form-control", value=name, placeholder="Choose your identity...") }}
+						<small class="form-text">
+							Your codename in the Upside Down
+						</small>
+					</div>
+					<div class="form-group">
+						<b><i class="fas fa-envelope mr-2"></i>{{ form.email.label }}</b>
+						{{ form.email(class="form-control", value=email, placeholder="Your secure contact...") }}
+						<small class="form-text">
+							Never shown to the public
+						</small>
+					</div>
+					<div class="form-group">
+						<b><i class="fas fa-key mr-2"></i>{{ form.password.label }}</b>
+						{{ form.password(class="form-control", value=password, placeholder="Create your secret key...") }}
+						<small class="form-text">
+							Password to access the portal
+						</small>
+					</div>
+					{{ form.nonce() }}
+
+					{{ render_extra_fields(form.extra) }}
+
+					<div class="row pt-3">
+						<div class="col-md-12">
+							{{ form.submit(class="btn btn-md btn-block register-btn") }}
+						</div>
+					</div>
+
+					{% if Configs.tos_or_privacy %}
+					<div class="row pt-3">
+						<div class="col-md-12 text-center">
+							<small class="tos-text text-center">
+								By registering, you agree to the
+								<a href="{{ Configs.privacy_link }}" rel="noopener" target="_blank">privacy policy</a>
+								and <a href="{{ Configs.tos_link }}" rel="noopener" target="_blank">terms of service</a>
+							</small>
+						</div>
+					</div>
+					{% endif %}
+				</form>
+				{% endwith %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

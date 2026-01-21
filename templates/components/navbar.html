@@ -1,0 +1,373 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top stranger-navbar">
+    <div class="container">
+        <a href="{{ url_for('views.static_html', route='/') }}" class="navbar-brand stranger-brand">
+            {% if Configs.ctf_logo %}
+                <img class="img-responsive ctf_logo" src="{{ url_for('views.files', path=Configs.ctf_logo) }}" height="25" alt="{{ Configs.ctf_name }}">
+            {% else %}
+                <span class="brand-text">{{ Configs.ctf_name }}</span>
+            {% endif %}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#base-navbars"
+                aria-controls="base-navbars" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="base-navbars">
+            <ul class="navbar-nav mr-auto">
+                {% for page in Plugins.user_menu_pages %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ page.route }}">{{ page.title }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if Configs.account_visibility != 'admins' %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('users.listing') }}">
+                            <i class="fas fa-user-secret nav-icon"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    {% if Configs.user_mode == 'teams' %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('teams.listing') }}">
+                            <i class="fas fa-users nav-icon"></i>
+                            <span>Teams</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if Configs.score_visibility != 'admins' %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('scoreboard.listing') }}">
+                            <i class="fas fa-trophy nav-icon"></i>
+                            <span>Scoreboard</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link stranger-link challenges-link" href="{{ url_for('challenges.listing') }}">
+                        <i class="fas fa-skull-crossbones nav-icon"></i>
+                        <span>Challenges</span>
+                    </a>
+                </li>
+            </ul>
+
+            <hr class="d-sm-flex d-md-flex d-lg-none nav-divider">
+
+            <ul class="navbar-nav ml-md-auto d-block d-sm-flex d-md-flex">
+                {% if authed() %}
+                    {% if is_admin() %}
+                        <li class="nav-item">
+                            <a class="nav-link stranger-link admin-link" href="{{ url_for('admin.view') }}">
+                                <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Admin Panel">
+                                    <i class="fas fa-wrench d-none d-md-block d-lg-none"></i>
+                                </span>
+                                <span class="d-sm-block d-md-none d-lg-block">
+                                    <i class="fas fa-wrench pr-1"></i>Admin Panel
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('views.notifications') }}">
+                            <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Notifications">
+                                <i class="fas fa-bell d-none d-md-block d-lg-none"></i>
+                            </span>
+                            <span class="d-sm-block d-md-none d-lg-block">
+                                <i class="fas fa-bell pr-1"></i>
+                                <span class="badge badge-pill badge-danger badge-notification"></span>
+                                Notifications
+                            </span>
+                        </a>
+                    </li>
+                    {% if Configs.user_mode == "teams" %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('teams.private') }}">
+                            <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Team">
+                                <i class="fas fa-users d-none d-md-block d-lg-none"></i>
+                            </span>
+                            <span class="d-sm-block d-md-none d-lg-block">
+                                <i class="fas fa-users pr-1"></i>Team
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('users.private') }}">
+                            <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Profile">
+                                <i class="fas fa-user-circle d-none d-md-block d-lg-none"></i>
+                            </span>
+                            <span class="d-sm-block d-md-none d-lg-block">
+                                <i class="fas fa-user-circle pr-1"></i>Profile
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link" href="{{ url_for('views.settings') }}">
+                            <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Settings">
+                                <i class="fas fa-cogs d-none d-md-block d-lg-none"></i>
+                            </span>
+                            <span class="d-sm-block d-md-none d-lg-block">
+                                <i class="fas fa-cogs pr-1"></i>Settings
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link logout-link" href="{{ url_for('auth.logout') }}">
+                            <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Logout">
+                                <i class="fas fa-sign-out-alt d-none d-md-block d-lg-none"></i>
+                            </span>
+                            <span class="d-sm-block d-md-none d-lg-block">
+                                <i class="fas fa-sign-out-alt pr-1"></i><span class="d-lg-none">Logout</span>
+                            </span>
+                        </a>
+                    </li>
+                {% else %}
+                    {% if registration_visible() %}
+                        <li class="nav-item">
+                            <a class="nav-link stranger-link register-link" href="{{ url_for('auth.register') }}">
+                                <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Register">
+                                    <i class="fas fa-user-plus d-none d-md-block d-lg-none"></i>
+                                </span>
+                                <span class="d-sm-block d-md-none d-lg-block">
+                                    <i class="fas fa-user-plus pr-1"></i>Register
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link stranger-link login-link" href="{{ url_for('auth.login') }}">
+                            <span class="d-block" data-toggle="tooltip" data-placement="bottom" title="Login">
+                                <i class="fas fa-sign-in-alt d-none d-md-block d-lg-none"></i>
+                            </span>
+                            <span class="d-sm-block d-md-none d-lg-block">
+                                <i class="fas fa-sign-in-alt pr-1"></i>Login
+                            </span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- Stranger Things portal effect line -->
+    <div class="navbar-portal-line"></div>
+</nav>
+
+<style>
+/* ========================================
+   STRANGER THINGS NAVBAR
+   ======================================== */
+.stranger-navbar {
+    background: linear-gradient(180deg,
+        rgba(10, 10, 10, 0.98) 0%,
+        rgba(30, 7, 7, 0.95) 100%) !important;
+    border-bottom: 2px solid #ff1515;
+    box-shadow:
+        0 5px 30px rgba(255, 21, 21, 0.4),
+        inset 0 -1px 0 rgba(255, 21, 21, 0.2);
+    padding: 0.8rem 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.stranger-navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.02;
+    pointer-events: none;
+}
+
+.navbar-portal-line {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        #ff1515 20%,
+        #3a5fe5 50%,
+        #ff1515 80%,
+        transparent 100%);
+    animation: portal-pulse 3s ease-in-out infinite;
+}
+
+@keyframes portal-pulse {
+    0%, 100% {
+        opacity: 0.6;
+        filter: blur(0px);
+    }
+    50% {
+        opacity: 1;
+        filter: blur(1px);
+    }
+}
+
+/* Brand Styling */
+.stranger-brand {
+    font-family: "Cinzel", serif !important;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.stranger-brand .brand-text {
+    color: #ff1515 !important;
+    text-shadow:
+        0 0 10px rgba(255, 21, 21, 0.8),
+        0 0 20px rgba(255, 21, 21, 0.6),
+        0 0 30px rgba(255, 21, 21, 0.4);
+    animation: brand-flicker 4s ease-in-out infinite alternate;
+}
+
+@keyframes brand-flicker {
+    0%, 100% {
+        text-shadow:
+            0 0 10px rgba(255, 21, 21, 0.8),
+            0 0 20px rgba(255, 21, 21, 0.6);
+    }
+    50% {
+        text-shadow:
+            0 0 5px rgba(255, 21, 21, 0.6),
+            0 0 15px rgba(255, 21, 21, 0.4);
+    }
+    75% {
+        text-shadow:
+            0 0 15px rgba(255, 21, 21, 1),
+            0 0 30px rgba(255, 21, 21, 0.8);
+    }
+}
+
+/* Navigation Links */
+.stranger-link {
+    font-family: "Orbitron", sans-serif !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem !important;
+    color: #d68f66 !important;
+    transition: all 0.3s ease !important;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+}
+
+.stranger-link .nav-icon {
+    margin-right: 0.5rem;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.stranger-link:hover {
+    color: #ff1515 !important;
+    text-shadow: 0 0 15px rgba(255, 21, 21, 0.8);
+}
+
+.stranger-link:hover .nav-icon {
+    opacity: 1;
+    color: #ff1515;
+    text-shadow: 0 0 10px rgba(255, 21, 21, 0.8);
+}
+
+.stranger-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ff1515, transparent);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.stranger-link:hover::after {
+    width: 80%;
+}
+
+/* Special Link Styling */
+.challenges-link {
+    color: #ff1515 !important;
+    font-weight: 700;
+}
+
+.challenges-link:hover {
+    color: #ff3333 !important;
+}
+
+.admin-link {
+    color: #3a5fe5 !important;
+}
+
+.admin-link:hover {
+    color: #5a7fff !important;
+    text-shadow: 0 0 15px rgba(58, 95, 229, 0.8);
+}
+
+.login-link, .register-link {
+    border: 1px solid #ff1515;
+    margin-left: 0.5rem;
+    border-radius: 0;
+}
+
+.login-link:hover, .register-link:hover {
+    background: rgba(255, 21, 21, 0.2);
+}
+
+.logout-link:hover {
+    color: #ff1515 !important;
+}
+
+/* Mobile Divider */
+.nav-divider {
+    border-color: rgba(255, 21, 21, 0.3);
+    margin: 1rem 0;
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+    border-color: #ff1515 !important;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 21, 21, 0.5);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ff1515' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Badge Notification */
+.badge-notification {
+    background: #ff1515 !important;
+    animation: notification-pulse 2s ease-in-out infinite;
+}
+
+@keyframes notification-pulse {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 21, 21, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(255, 21, 21, 0.8);
+        transform: scale(1.1);
+    }
+}
+
+/* Logo Image */
+.ctf_logo {
+    filter: drop-shadow(0 0 5px rgba(255, 21, 21, 0.5));
+    transition: all 0.3s ease;
+}
+
+.ctf_logo:hover {
+    filter: drop-shadow(0 0 15px rgba(255, 21, 21, 0.8));
+}
+</style>

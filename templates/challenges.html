@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/challenge-board.css') }}">
+<style>
+/* ========================================
+   STRANGER THINGS CHALLENGES PAGE
+   ======================================== */
+.challenges-jumbotron {
+	position: relative;
+	overflow: hidden;
+}
+
+.challenges-jumbotron h1 {
+	font-family: "Cinzel", serif;
+	font-size: 3rem;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	color: #ff1515;
+	text-shadow:
+		0 0 10px rgba(255, 21, 21, 0.8),
+		0 0 20px rgba(255, 21, 21, 0.6),
+		0 0 30px rgba(255, 21, 21, 0.4),
+		0 0 40px rgba(255, 21, 21, 0.2);
+	animation: title-flicker 4s ease-in-out infinite alternate;
+	position: relative;
+	z-index: 5;
+}
+
+.challenges-jumbotron h1::before {
+	content: '⬡';
+	margin-right: 1rem;
+	font-size: 2rem;
+	opacity: 0.5;
+	animation: icon-pulse 2s ease-in-out infinite;
+}
+
+.challenges-jumbotron h1::after {
+	content: '⬡';
+	margin-left: 1rem;
+	font-size: 2rem;
+	opacity: 0.5;
+	animation: icon-pulse 2s ease-in-out infinite reverse;
+}
+
+@keyframes title-flicker {
+	0%, 100% {
+		text-shadow:
+			0 0 10px rgba(255, 21, 21, 0.8),
+			0 0 20px rgba(255, 21, 21, 0.6),
+			0 0 30px rgba(255, 21, 21, 0.4);
+	}
+	50% {
+		text-shadow:
+			0 0 5px rgba(255, 21, 21, 0.6),
+			0 0 15px rgba(255, 21, 21, 0.4),
+			0 0 25px rgba(255, 21, 21, 0.2);
+	}
+	75% {
+		text-shadow:
+			0 0 20px rgba(255, 21, 21, 1),
+			0 0 40px rgba(255, 21, 21, 0.8),
+			0 0 60px rgba(255, 21, 21, 0.4);
+	}
+}
+
+@keyframes icon-pulse {
+	0%, 100% { opacity: 0.3; transform: scale(1); }
+	50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Challenge Board Container */
+#challenges-board {
+	position: relative;
+	padding: 2rem 0;
+}
+
+#challenges-board::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background:
+		linear-gradient(90deg, rgba(255, 21, 21, 0.03) 1px, transparent 1px),
+		linear-gradient(rgba(255, 21, 21, 0.03) 1px, transparent 1px);
+	background-size: 80px 80px;
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* Spinner styling */
+.spinner {
+	color: #ff1515 !important;
+	filter: drop-shadow(0 0 10px rgba(255, 21, 21, 0.8));
+}
+
+/* Challenge Modal Window */
+#challenge-window .modal-dialog {
+	max-width: 800px;
+}
+
+#challenge-window .modal-content {
+	background: linear-gradient(180deg,
+		rgba(10, 10, 10, 0.98) 0%,
+		rgba(30, 7, 7, 0.98) 50%,
+		rgba(30, 25, 60, 0.98) 100%);
+	border: 2px solid #ff1515;
+	box-shadow:
+		0 0 50px rgba(255, 21, 21, 0.5),
+		0 0 100px rgba(255, 21, 21, 0.2);
+	animation: modal-appear 0.3s ease-out;
+}
+
+@keyframes modal-appear {
+	0% {
+		opacity: 0;
+		transform: scale(0.9) translateY(-20px);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+/* Category Row Styling */
+.category-row {
+	margin-bottom: 2rem;
+}
+
+.category-header {
+	font-family: "Cinzel", serif;
+	color: #ff1515;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	font-size: 1.5rem;
+	text-shadow: 0 0 15px rgba(255, 21, 21, 0.6);
+	border-bottom: 2px solid rgba(255, 21, 21, 0.5);
+	padding-bottom: 0.5rem;
+	margin-bottom: 1.5rem;
+	position: relative;
+}
+
+.category-header::before {
+	content: '◈';
+	margin-right: 0.75rem;
+	color: #3a5fe5;
+}
+
+.category-header::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 100px;
+	height: 2px;
+	background: linear-gradient(90deg, #ff1515, transparent);
+}
+
+/* Challenge Button Grid */
+.challenge-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	justify-content: flex-start;
+}
+
+/* Enhanced Challenge Buttons */
+.challenge-button {
+	background: linear-gradient(180deg,
+		rgba(30, 7, 7, 0.9) 0%,
+		rgba(10, 10, 10, 0.95) 100%) !important;
+	border: 2px solid #8c4f4f !important;
+	color: #f9f1e6 !important;
+	font-family: "Orbitron", sans-serif !important;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 0.9rem;
+	padding: 1rem 1.5rem;
+	min-width: 150px;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s ease;
+	box-shadow:
+		0 5px 15px rgba(0, 0, 0, 0.5),
+		inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.challenge-button::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, rgba(255, 21, 21, 0.2), transparent);
+	transition: left 0.5s ease;
+}
+
+.challenge-button:hover {
+	border-color: #ff1515 !important;
+	box-shadow:
+		0 5px 25px rgba(255, 21, 21, 0.5),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	transform: translateY(-3px);
+	color: #ff1515 !important;
+}
+
+.challenge-button:hover::before {
+	left: 100%;
+}
+
+/* Challenge Value Display */
+.challenge-button .challenge-value {
+	display: block;
+	font-size: 1.5rem;
+	font-weight: 900;
+	color: #05d9e8;
+	text-shadow: 0 0 10px rgba(5, 217, 232, 0.6);
+	margin-top: 0.5rem;
+}
+
+/* Solved Challenge State */
+.solved-challenge {
+	background: linear-gradient(180deg,
+		rgba(7, 62, 30, 0.8) 0%,
+		rgba(55, 214, 62, 0.2) 50%,
+		rgba(7, 62, 30, 0.8) 100%) !important;
+	border: 2px solid #37d63e !important;
+	box-shadow:
+		0 0 20px rgba(55, 214, 62, 0.4),
+		inset 0 0 30px rgba(55, 214, 62, 0.1) !important;
+}
+
+.solved-challenge::after {
+	content: '✓ SOLVED';
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	font-size: 0.6rem;
+	color: #37d63e;
+	text-shadow: 0 0 5px #37d63e;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.solved-challenge:hover {
+	border-color: #37d63e !important;
+	box-shadow:
+		0 0 30px rgba(55, 214, 62, 0.6),
+		inset 0 0 40px rgba(55, 214, 62, 0.2) !important;
+}
+
+/* Portal entrance animation for page */
+.challenges-container {
+	animation: portal-open 0.6s ease-out;
+}
+
+@keyframes portal-open {
+	0% {
+		opacity: 0;
+		transform: scale(0.95);
+		filter: blur(5px);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+		filter: blur(0);
+	}
+}
+
+/* Subtitle text */
+.challenges-subtitle {
+	font-family: "Orbitron", sans-serif;
+	color: #8c4f4f;
+	font-size: 0.9rem;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	margin-top: 0.5rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron challenges-jumbotron">
+	<div class="container">
+		<h1>Challenges</h1>
+		<p class="challenges-subtitle">Enter at your own risk</p>
+	</div>
+</div>
+
+<div class="modal fade" id="challenge-window" tabindex="-1" role="dialog">
+</div>
+
+<div class="container challenges-container">
+	<div class="row">
+		<div class="col-md-12">
+			{% include "components/errors.html" %}
+		</div>
+	</div>
+
+	<div id='challenges-board'>
+		<div class="min-vh-50 d-flex align-items-center">
+			<div class="text-center w-100">
+				<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+				<p class="mt-3" style="color: #8c4f4f; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">
+					Opening portal to the Upside Down...
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/challenges.js') }}"></script>
+{% endblock %}

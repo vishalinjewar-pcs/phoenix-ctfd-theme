@@ -1,0 +1,722 @@
+// ========================================
+// STRANGER THINGS CTFd THEME
+// Inspired by the Upside Down
+// ========================================
+
+// Stranger Things Color Palette
+$st-black: #0a0a0a;
+$st-dark: #1a0a0a;
+$st-dark-red: #1e0707;
+$st-dark-blue: #1e193c;
+$st-forest-green: #073e1e;
+$st-red: #ff1515;
+$st-red-glow: #ff3333;
+$st-red-dark: #8c1515;
+$st-blue: #3a5fe5;
+$st-blue-glow: #5a7fff;
+$st-copper: #8c4f4f;
+$st-copper-light: #d68f66;
+$st-cream: #f8c8a0;
+$st-white: #f9f1e6;
+$st-neon-pink: #ff2a6d;
+$st-neon-cyan: #05d9e8;
+$st-upside-down: #2d1f3d;
+
+// Override Bootstrap variables before import
+$primary: $st-red;
+$secondary: $st-copper;
+$dark: $st-dark;
+$light: $st-white;
+$info: $st-blue;
+$danger: $st-red;
+$success: $st-forest-green;
+$body-bg: $st-black;
+$body-color: $st-white;
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~highlight.js/styles/github.css";
+@import "includes/jumbotron.css";
+@import "includes/sticky-footer.css";
+@import "includes/award-icons.scss";
+@import "includes/flag-icons.scss";
+@import "includes/utils/opacity.scss";
+@import "includes/utils/min-height.scss";
+
+// ========================================
+// STRANGER THINGS FONT IMPORTS
+// ========================================
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&display=swap');
+
+// ========================================
+// BASE STYLES - THE UPSIDE DOWN
+// ========================================
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+.container {
+  font-family: "Lato", "LatoOffline", sans-serif;
+  background-color: $st-black;
+  color: $st-white;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, rgba(30, 25, 60, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(139, 21, 21, 0.3) 0%, transparent 50%),
+    linear-gradient(180deg, $st-black 0%, $st-dark-red 50%, $st-black 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+// Floating particles effect
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 21, 21, 0.3), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(58, 95, 229, 0.3), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255, 21, 21, 0.2), transparent),
+    radial-gradient(2px 2px at 130px 80px, rgba(58, 95, 229, 0.2), transparent),
+    radial-gradient(1px 1px at 160px 120px, rgba(255, 21, 21, 0.3), transparent);
+  background-size: 200px 200px;
+  animation: float-particles 20s linear infinite;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+@keyframes float-particles {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-200px); }
+}
+
+// ========================================
+// TYPOGRAPHY - STRANGER THINGS STYLE
+// ========================================
+h1, h2 {
+  font-family: "Cinzel", "Raleway", "RalewayOffline", serif;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: $st-red;
+  text-shadow:
+    0 0 10px rgba(255, 21, 21, 0.8),
+    0 0 20px rgba(255, 21, 21, 0.6),
+    0 0 30px rgba(255, 21, 21, 0.4),
+    0 0 40px rgba(255, 21, 21, 0.2);
+  animation: text-flicker 3s ease-in-out infinite alternate;
+}
+
+h3, h4, h5, h6 {
+  font-family: "Orbitron", "Lato", sans-serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: $st-cream;
+}
+
+@keyframes text-flicker {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(255, 21, 21, 0.8),
+      0 0 20px rgba(255, 21, 21, 0.6),
+      0 0 30px rgba(255, 21, 21, 0.4),
+      0 0 40px rgba(255, 21, 21, 0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 5px rgba(255, 21, 21, 0.6),
+      0 0 15px rgba(255, 21, 21, 0.4),
+      0 0 25px rgba(255, 21, 21, 0.3),
+      0 0 35px rgba(255, 21, 21, 0.1);
+  }
+  75% {
+    text-shadow:
+      0 0 15px rgba(255, 21, 21, 1),
+      0 0 25px rgba(255, 21, 21, 0.8),
+      0 0 35px rgba(255, 21, 21, 0.6),
+      0 0 45px rgba(255, 21, 21, 0.4);
+  }
+}
+
+// ========================================
+// LINKS
+// ========================================
+a {
+  color: $st-neon-cyan;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $st-red;
+    text-shadow: 0 0 10px rgba(255, 21, 21, 0.8);
+  }
+}
+
+// ========================================
+// TABLE STYLES
+// ========================================
+table > thead > tr > td {
+  border-top: none !important;
+}
+
+.table {
+  color: $st-white;
+  background: transparent;
+
+  thead th {
+    white-space: nowrap;
+    color: $st-red;
+    border-bottom: 2px solid $st-red;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: "Orbitron", sans-serif;
+  }
+
+  td, th {
+    border-color: rgba(255, 21, 21, 0.2);
+  }
+
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(30, 7, 7, 0.5);
+  }
+
+  &.table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(30, 25, 60, 0.3);
+  }
+
+  tbody tr {
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 21, 21, 0.1) !important;
+      box-shadow: 0 0 15px rgba(255, 21, 21, 0.3);
+    }
+  }
+}
+
+blockquote {
+  border-left: 4px solid $st-red;
+  padding-left: 15px;
+  color: $st-copper-light;
+  background: rgba(30, 7, 7, 0.5);
+  padding: 15px;
+  border-radius: 0 5px 5px 0;
+}
+
+// ========================================
+// SPINNER
+// ========================================
+.fa-spin.spinner {
+  text-align: center;
+  opacity: 0.8;
+  color: $st-red;
+  filter: drop-shadow(0 0 10px $st-red);
+}
+
+.spinner-error {
+  padding-top: 20vh;
+  text-align: center;
+  opacity: 0.5;
+  color: $st-red;
+}
+
+// ========================================
+// JUMBOTRON - UPSIDE DOWN PORTAL
+// ========================================
+.jumbotron {
+  border-radius: 0;
+  text-align: center;
+  background:
+    linear-gradient(180deg,
+      rgba(10, 10, 10, 0.9) 0%,
+      rgba(30, 7, 7, 0.95) 50%,
+      rgba(45, 31, 61, 0.9) 100%);
+  border-bottom: 3px solid $st-red;
+  box-shadow:
+    0 5px 30px rgba(255, 21, 21, 0.5),
+    inset 0 -20px 60px rgba(255, 21, 21, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  h1 {
+    position: relative;
+    z-index: 1;
+    font-size: 3.5rem;
+    margin-bottom: 0;
+  }
+}
+
+// ========================================
+// FORM CONTROLS - RETRO 80s STYLE
+// ========================================
+.form-control {
+  background: rgba(10, 10, 10, 0.9);
+  border: 2px solid $st-copper;
+  color: $st-white;
+  padding: 0.8em !important;
+  border-radius: 0;
+  font-family: "Orbitron", monospace;
+  transition: all 0.3s ease;
+  height: auto !important;
+
+  &::placeholder {
+    color: $st-copper;
+    opacity: 0.7;
+  }
+
+  &:focus {
+    background-color: rgba(30, 7, 7, 0.9);
+    border-color: $st-red;
+    box-shadow:
+      0 0 0 0.1rem rgba(255, 21, 21, 0.5),
+      0 0 20px rgba(255, 21, 21, 0.3),
+      inset 0 0 10px rgba(255, 21, 21, 0.1);
+    color: $st-white;
+  }
+}
+
+select.form-control {
+  height: auto !important;
+}
+
+.custom-select {
+  background: rgba(10, 10, 10, 0.9) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23ff1515' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+    no-repeat right 0.75rem center/8px 10px !important;
+  border: 2px solid $st-copper;
+  color: $st-white;
+}
+
+.input-filled-valid {
+  background-color: rgba(7, 62, 30, 0.3) !important;
+  border-color: $st-forest-green;
+  box-shadow:
+    0 0 0 0.1rem rgba(7, 62, 30, 0.5),
+    0 0 15px rgba(7, 62, 30, 0.3);
+}
+
+.input-filled-invalid {
+  background-color: rgba(255, 21, 21, 0.1) !important;
+  border-color: $st-red;
+  box-shadow:
+    0 0 0 0.1rem rgba(255, 21, 21, 0.5),
+    0 0 15px rgba(255, 21, 21, 0.3);
+  animation: input-shake 0.5s ease;
+}
+
+@keyframes input-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+// ========================================
+// BUTTONS - NEON GLOW STYLE
+// ========================================
+.btn {
+  letter-spacing: 2px;
+  text-decoration: none;
+  -moz-user-select: none;
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  padding: 10px 25px;
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, $st-red 0%, $st-red-dark 100%);
+  border: 2px solid $st-red;
+  color: $st-white;
+  box-shadow:
+    0 0 15px rgba(255, 21, 21, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  &:hover, &:focus {
+    background: linear-gradient(180deg, $st-red-glow 0%, $st-red 100%);
+    border-color: $st-red-glow;
+    box-shadow:
+      0 0 25px rgba(255, 21, 21, 0.8),
+      0 0 50px rgba(255, 21, 21, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-info {
+  background: linear-gradient(180deg, $st-blue 0%, darken($st-blue, 15%) 100%) !important;
+  border: 2px solid $st-blue !important;
+  color: $st-white;
+  box-shadow: 0 0 15px rgba(58, 95, 229, 0.5);
+
+  &:hover {
+    background: linear-gradient(180deg, $st-blue-glow 0%, $st-blue 100%) !important;
+    box-shadow:
+      0 0 25px rgba(58, 95, 229, 0.8),
+      0 0 50px rgba(58, 95, 229, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, $st-copper 0%, darken($st-copper, 15%) 100%);
+  border: 2px solid $st-copper;
+  color: $st-white;
+  box-shadow: 0 0 10px rgba(140, 79, 79, 0.5);
+
+  &:hover {
+    background: linear-gradient(180deg, $st-copper-light 0%, $st-copper 100%);
+    box-shadow: 0 0 20px rgba(140, 79, 79, 0.8);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outlined {
+  background: transparent;
+  border: 2px solid $st-red;
+  color: $st-red;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $st-red;
+    color: $st-white;
+    box-shadow: 0 0 20px rgba(255, 21, 21, 0.6);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outlined.btn-theme {
+  background: none;
+  color: $st-red;
+  border-color: $st-red;
+  border: 3px solid;
+}
+
+// ========================================
+// BADGES - GLOWING LABELS
+// ========================================
+.badge-info {
+  background: linear-gradient(180deg, $st-blue 0%, darken($st-blue, 10%) 100%) !important;
+  box-shadow: 0 0 10px rgba(58, 95, 229, 0.5);
+  border: 1px solid rgba(58, 95, 229, 0.5);
+}
+
+.badge-primary {
+  background: linear-gradient(180deg, $st-red 0%, $st-red-dark 100%) !important;
+  box-shadow: 0 0 10px rgba(255, 21, 21, 0.5);
+}
+
+.badge-notification {
+  vertical-align: top;
+  margin-left: -1.5em;
+  font-size: 50%;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 21, 21, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 21, 21, 0.8);
+  }
+}
+
+// ========================================
+// ALERTS - SUPERNATURAL WARNINGS
+// ========================================
+.alert {
+  border-radius: 0 !important;
+  padding: 1em;
+  border: 2px solid;
+  background: rgba(10, 10, 10, 0.9);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+  }
+}
+
+.alert-info {
+  border-color: $st-blue;
+  color: $st-blue-glow;
+
+  &::before {
+    background: $st-blue;
+    box-shadow: 0 0 10px $st-blue;
+  }
+}
+
+.alert-danger {
+  border-color: $st-red;
+  color: $st-red-glow;
+
+  &::before {
+    background: $st-red;
+    box-shadow: 0 0 10px $st-red;
+  }
+}
+
+.alert-success {
+  border-color: $st-forest-green;
+  color: lighten($st-forest-green, 30%);
+
+  &::before {
+    background: $st-forest-green;
+    box-shadow: 0 0 10px $st-forest-green;
+  }
+}
+
+// ========================================
+// CARDS - PORTAL FRAMES
+// ========================================
+.card {
+  border-radius: 0 !important;
+  background: rgba(10, 10, 10, 0.95);
+  border: 2px solid $st-copper;
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $st-red;
+    box-shadow:
+      0 5px 30px rgba(255, 21, 21, 0.3),
+      0 0 0 1px rgba(255, 21, 21, 0.1);
+  }
+
+  .card-header {
+    background: rgba(30, 7, 7, 0.8);
+    border-bottom: 2px solid $st-copper;
+    color: $st-cream;
+    font-family: "Orbitron", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .card-body {
+    color: $st-white;
+  }
+}
+
+// ========================================
+// MODALS - UPSIDE DOWN PORTALS
+// ========================================
+.modal-content {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(180deg,
+      rgba(10, 10, 10, 0.98) 0%,
+      rgba(30, 7, 7, 0.98) 100%);
+  border: 2px solid $st-red;
+  box-shadow:
+    0 0 50px rgba(255, 21, 21, 0.5),
+    0 0 100px rgba(255, 21, 21, 0.2),
+    inset 0 0 30px rgba(255, 21, 21, 0.1);
+  color: $st-white;
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(255, 21, 21, 0.3);
+
+  .close {
+    color: $st-red;
+    text-shadow: 0 0 10px $st-red;
+    opacity: 1;
+
+    &:hover {
+      color: $st-red-glow;
+    }
+  }
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(255, 21, 21, 0.3);
+}
+
+// ========================================
+// NAVIGATION TABS
+// ========================================
+.nav-tabs {
+  border-bottom: 2px solid $st-copper;
+
+  .nav-link {
+    color: $st-copper-light;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    font-family: "Orbitron", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $st-red;
+      border-bottom-color: rgba(255, 21, 21, 0.5);
+    }
+
+    &.active {
+      color: $st-red;
+      background: transparent;
+      border-color: transparent;
+      border-bottom: 3px solid $st-red;
+      box-shadow: 0 3px 10px rgba(255, 21, 21, 0.5);
+    }
+  }
+}
+
+// ========================================
+// UTILITY CLASSES
+// ========================================
+.btn-fa {
+  cursor: pointer;
+  color: $st-copper-light;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $st-red;
+    text-shadow: 0 0 10px $st-red;
+  }
+}
+
+.close {
+  cursor: pointer;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-help {
+  cursor: help;
+}
+
+.fa-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+// ========================================
+// FOOTER - STRANGER THINGS STYLE
+// ========================================
+.footer {
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.95) 100%);
+  border-top: 1px solid rgba(255, 21, 21, 0.3);
+  padding: 20px 0;
+
+  .text-muted {
+    color: $st-copper !important;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $st-red !important;
+    }
+  }
+}
+
+// ========================================
+// SCROLLBAR - CUSTOM STYLING
+// ========================================
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $st-black;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, $st-red-dark 0%, $st-copper 100%);
+  border-radius: 5px;
+
+  &:hover {
+    background: linear-gradient(180deg, $st-red 0%, $st-copper-light 100%);
+  }
+}
+
+// ========================================
+// SELECTION HIGHLIGHT
+// ========================================
+::selection {
+  background: rgba(255, 21, 21, 0.5);
+  color: $st-white;
+}
+
+::-moz-selection {
+  background: rgba(255, 21, 21, 0.5);
+  color: $st-white;
+}
+
+// ========================================
+// TEXT UTILITIES
+// ========================================
+.text-secondary {
+  color: $st-copper-light !important;
+}
+
+.text-primary {
+  color: $st-red !important;
+}
+
+.text-info {
+  color: $st-blue !important;
+}
+
+.text-muted {
+  color: $st-copper !important;
+}

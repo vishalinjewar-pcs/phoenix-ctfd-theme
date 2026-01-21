@@ -1,0 +1,248 @@
+// ========================================
+// CORE STYLES - STRANGER THINGS THEME
+// ========================================
+
+// Stranger Things Color Variables
+$st-black: #0a0a0a;
+$st-dark-red: #1e0707;
+$st-dark-blue: #1e193c;
+$st-red: #ff1515;
+$st-red-glow: #ff3333;
+$st-blue: #3a5fe5;
+$st-copper: #8c4f4f;
+$st-copper-light: #d68f66;
+$st-cream: #f8c8a0;
+$st-white: #f9f1e6;
+
+// ========================================
+// JUMBOTRON - UPSIDE DOWN PORTAL
+// ========================================
+.jumbotron {
+  background:
+    linear-gradient(180deg,
+      rgba(10, 10, 10, 0.9) 0%,
+      rgba(30, 7, 7, 0.95) 50%,
+      rgba(45, 31, 61, 0.9) 100%);
+  color: $st-white;
+  border-bottom: 3px solid $st-red;
+  box-shadow:
+    0 5px 30px rgba(255, 21, 21, 0.5),
+    inset 0 -20px 60px rgba(255, 21, 21, 0.1);
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 2rem;
+
+  // Noise texture overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  // Vine-like tendrils effect at bottom
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background:
+      radial-gradient(ellipse at 10% 100%, rgba(255, 21, 21, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 100%, rgba(45, 31, 61, 0.5) 0%, transparent 40%),
+      radial-gradient(ellipse at 60% 100%, rgba(255, 21, 21, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(45, 31, 61, 0.5) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  h1 {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// ========================================
+// FORM CONTROLS - RETRO TERMINAL STYLE
+// ========================================
+.form-control {
+  padding: 0.8em !important;
+  background: rgba(10, 10, 10, 0.9);
+  color: $st-white;
+  border: 2px solid $st-copper;
+  border-radius: 0;
+  font-family: "Orbitron", monospace;
+  height: auto !important;
+  transition: all 0.3s ease;
+
+  &::placeholder {
+    color: $st-copper;
+    opacity: 0.6;
+  }
+
+  &:focus {
+    background: rgba(30, 7, 7, 0.9);
+    border-color: $st-red;
+    color: $st-white;
+    box-shadow:
+      0 0 0 0.1rem rgba(255, 21, 21, 0.5),
+      0 0 20px rgba(255, 21, 21, 0.3);
+  }
+}
+
+select.form-control {
+  height: auto !important;
+  cursor: pointer;
+}
+
+.custom-select {
+  background: rgba(10, 10, 10, 0.9) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23ff1515' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+    no-repeat right 0.75rem center/8px 10px !important;
+  border: 2px solid $st-copper;
+  color: $st-white;
+}
+
+// ========================================
+// CARDS - DIMENSIONAL PORTALS
+// ========================================
+.card {
+  border-radius: 0 !important;
+  background: rgba(10, 10, 10, 0.95);
+  border: 2px solid $st-copper;
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  // Portal glow effect on hover
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 21, 21, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: $st-red;
+    box-shadow:
+      0 5px 30px rgba(255, 21, 21, 0.3),
+      0 0 0 1px rgba(255, 21, 21, 0.1);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+// ========================================
+// GRAPHS - SUPERNATURAL DATA VISUALIZATION
+// ========================================
+#score-graph {
+  min-height: 400px;
+  display: block;
+  clear: both;
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(255, 21, 21, 0.2);
+  border-radius: 0;
+  padding: 1rem;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 21, 21, 0.05) 1px, transparent 1px),
+      linear-gradient(rgba(255, 21, 21, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+#solves-graph {
+  display: block;
+  height: 350px;
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(255, 21, 21, 0.2);
+  padding: 1rem;
+}
+
+#keys-pie-graph,
+#categories-pie-graph {
+  min-height: 400px;
+  display: block;
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(255, 21, 21, 0.2);
+  padding: 1rem;
+}
+
+// ========================================
+// FORM CONTROL OVERRIDES
+// ========================================
+.form-control {
+  position: relative;
+  display: block;
+  padding: 0.8em !important;
+  border-radius: 0;
+  background: rgba(10, 10, 10, 0.9);
+  color: $st-white;
+  font-weight: 400;
+  font-family: "Orbitron", monospace;
+  -webkit-appearance: none;
+  height: auto !important;
+  border: 2px solid $st-copper;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $st-copper-light;
+  }
+}
+
+// ========================================
+// FORM LABELS
+// ========================================
+label, b {
+  color: $st-cream;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+// ========================================
+// HR STYLING
+// ========================================
+hr {
+  border-color: rgba(255, 21, 21, 0.3);
+  margin: 2rem 0;
+  position: relative;
+
+  &::before {
+    content: '◆';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: $st-black;
+    padding: 0 1rem;
+    color: $st-red;
+    font-size: 0.8rem;
+  }
+}

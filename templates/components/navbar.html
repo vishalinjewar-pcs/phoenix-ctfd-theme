@@ -166,7 +166,8 @@
     box-shadow:
         0 5px 30px rgba(255, 21, 21, 0.4),
         inset 0 -1px 0 rgba(255, 21, 21, 0.2);
-    padding: 0.8rem 0;
+    padding: 0.4rem 0;
+    min-height: auto;
     position: relative;
     z-index: 1000;
 }
@@ -213,9 +214,16 @@
 .stranger-brand {
     font-family: "Cinzel", serif !important;
     font-weight: 700;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     position: relative;
+    padding: 0.2rem 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+.stranger-brand .ctf_logo {
+    height: 22px;
 }
 
 .stranger-brand .brand-text {
@@ -250,17 +258,24 @@
     font-family: "Orbitron", sans-serif !important;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 0.85rem !important;
+    font-size: 0.8rem !important;
     color: #d68f66 !important;
     transition: all 0.3s ease !important;
     position: relative;
-    padding: 0.5rem 1rem !important;
+    padding: 0.4rem 0.8rem !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .stranger-link .nav-icon {
-    margin-right: 0.5rem;
     opacity: 0.7;
     transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.stranger-link span {
+    display: inline;
 }
 
 .stranger-link:hover {
@@ -369,5 +384,31 @@
 
 .ctf_logo:hover {
     filter: drop-shadow(0 0 15px rgba(255, 21, 21, 0.8));
+}
+
+/* Navbar alignment fixes */
+.stranger-navbar .navbar-nav {
+    align-items: center;
+}
+
+.stranger-navbar .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.stranger-navbar .navbar-nav .nav-link {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.stranger-navbar .navbar-nav .nav-link i {
+    margin-right: 0.35rem;
+}
+
+/* Compact nav items */
+.stranger-navbar .nav-item .nav-link {
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
 }
 </style>

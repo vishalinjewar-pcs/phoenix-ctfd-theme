@@ -175,12 +175,12 @@
 .stranger-navbar .container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .stranger-navbar .navbar-collapse {
+    display: flex !important;
+    justify-content: center;
     flex-grow: 1;
-    justify-content: flex-end;
 }
 
 .stranger-navbar::before {
@@ -418,14 +418,29 @@
     margin-right: 0.35rem;
 }
 
-/* Center the left nav items and spread to right */
+/* Center all nav items */
 .stranger-navbar .navbar-nav.mr-auto {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.stranger-navbar .navbar-nav.ml-md-auto {
     margin-left: auto !important;
     margin-right: 0 !important;
 }
 
-.stranger-navbar .navbar-nav.ml-md-auto {
-    margin-left: 0 !important;
+/* When collapsed, show as centered flexbox */
+@media (min-width: 768px) {
+    .stranger-navbar .navbar-collapse {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stranger-navbar .navbar-collapse .navbar-nav {
+        display: flex;
+        align-items: center;
+    }
 }
 
 /* Compact nav items */

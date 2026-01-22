@@ -175,11 +175,12 @@
 .stranger-navbar .container {
     display: flex;
     align-items: center;
+    max-width: 100%;
 }
 
 .stranger-navbar .navbar-collapse {
     display: flex !important;
-    justify-content: center;
+    justify-content: flex-end;
     flex-grow: 1;
 }
 
@@ -225,12 +226,13 @@
 .stranger-brand {
     font-family: "Cinzel", serif !important;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     position: relative;
     padding: 0.2rem 0 !important;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .stranger-brand .ctf_logo {
@@ -268,15 +270,15 @@
 .stranger-link {
     font-family: "Orbitron", sans-serif !important;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.8rem !important;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem !important;
     color: #d68f66 !important;
     transition: all 0.3s ease !important;
     position: relative;
-    padding: 0.4rem 0.8rem !important;
+    padding: 0.4rem 0.5rem !important;
     display: inline-flex !important;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.3rem;
 }
 
 .stranger-link .nav-icon {
@@ -418,7 +420,7 @@
     margin-right: 0.35rem;
 }
 
-/* Center all nav items */
+/* Nav items alignment */
 .stranger-navbar .navbar-nav.mr-auto {
     margin-left: 0 !important;
     margin-right: auto !important;
@@ -429,17 +431,23 @@
     margin-right: 0 !important;
 }
 
-/* When collapsed, show as centered flexbox */
+/* Ensure all items visible */
 @media (min-width: 768px) {
     .stranger-navbar .navbar-collapse {
         display: flex !important;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
+        flex-wrap: nowrap;
     }
 
     .stranger-navbar .navbar-collapse .navbar-nav {
         display: flex;
         align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .stranger-navbar .navbar-nav.ml-md-auto {
+        gap: 0;
     }
 }
 
